@@ -17,12 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fospitia/casbin-dynamodb-adapter.git"
+    "url": "git+https://github.com/xamogh/casbin-dynamodb-v3-adapter"
   },
   "bugs": {
-    "url": "https://github.com/fospitia/casbin-dynamodb-adapter/issues"
+    "url": "https://github.com/xamogh/casbin-dynamodb-v3-adapter/issues"
   },
-  "homepage": "https://github.com/fospitia/casbin-dynamodb-adapter#readme",
+  "homepage": "https://github.com/xamogh/casbin-dynamodb-v3-adapter#readme",
   "devDependencies": {
     "typescript": "4.8.3"
   }

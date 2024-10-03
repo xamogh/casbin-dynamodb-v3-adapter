@@ -16,39 +16,42 @@ npm install casbin-dynamodb-adapter
 ## Simple Example
 
 ```js
-const Casbin = require( 'casbin' );
-const { CasbinDynamoDBAdapter } = require( 'casbin-dynamodb-adapter' );
-const AWS = require('aws-sdk');
+const Casbin = require('casbin');
+const { CasbinDynamoDBAdapter } = require('casbin-dynamodb-adapter');
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+const { DynamoDBDocumentClient } = require('@aws-sdk/lib-dynamodb');
 
-const client = new AWS.DynamoDB.DocumentClient();
+const client = new DynamoDBClient({ region: 'your-region' });
+const docClient = DynamoDBDocumentClient.from(client);
 
 (async () => {
-	try{
-        const opts = {
-            tableName:  'Test_Casbin',
-            hashKey: 'id'
-        };
-        const enforcer = await Casbin.newEnforcer('model.conf', new CasbinDynamoDBAdapter(client, opts));
+  try {
+    const opts = {
+      tableName: 'Test_Casbin',
+      hashKey: 'id'
+    };
+    const adapter = new CasbinDynamoDBAdapter(docClient, opts);
+    const enforcer = await Casbin.newEnforcer('model.conf', adapter);
 
-		// Load policies from the database.
-		await enforcer.loadPolicy();
+    // Load policies from the database.
+    await enforcer.loadPolicy();
 
-		// Add a policy.
-		await enforcer.addPolicy('alice', 'data1', 'read');
+    // Add a policy.
+    await enforcer.addPolicy('alice', 'data1', 'read');
 
-		// Check permissions.
-		let isMatched = enforcer.enforce( 'alice', 'data1', 'read' );
-		console.log( isMatched );
+    // Check permissions.
+    const isMatched = await enforcer.enforce('alice', 'data1', 'read');
+    console.log(isMatched); // true
 
-		await enforcer.removePolicy('alice', 'data1', 'read');
+    // Remove a policy.
+    await enforcer.removePolicy('alice', 'data1', 'read');
 
-		// Save policies back to the database.
-		await enforcer.savePolicy();
+    // Save policies back to the database.
+    await enforcer.savePolicy();
 
-		process.exit();
-	}
-    catch( e ) {
-        console.error( e );
-    }
+    process.exit();
+  } catch (e) {
+    console.error(e);
+  }
 })();
 ```
