@@ -1,7 +1,7 @@
 {
-  "name": "casbin-dynamodb-adapter",
-  "version": "0.4.1",
-  "description": "Casbin DynamoDB Adapter",
+  "name": "casbin-dynamodb-adapter-v3",
+  "version": "0.1.0",
+  "description": "Casbin DynamoDB Adapter V3",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -11,6 +11,8 @@
   "author": "fospitia@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.662.0",
+    "@aws-sdk/lib-dynamodb": "^3.662.0",
     "casbin": "^5.18.0"
   },
   "repository": {
